@@ -1,3 +1,35 @@
+Anotaçoes da aula 
+
+select inet_server_port();
+
+select current_database();
+
+select current_user;
+
+select inet_server_addr(); 
+
+psql -h localhost -p 5432 -d LBD -U postgress  -W
+
+join = n - 1
+numero de tabela do relatório/consulta
+
+
+SELECT col_a ,col_b,col_c 
+from Tb_tete
+order by 3;
+
+SELECT *  -------> tabela original
+from Tb_tete 
+order by 3;
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+CREATE DATABASE "LBD"
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 CREATE TABLE tb_cliente(
 	id_cliente		INTEGER,
 	titulo			CHAR(4),
@@ -89,7 +121,7 @@ VALUES
  (5, 'Sr', 'Vitor', 'Silva', 'Entrada Aguá Chata', 's/n', 'Rodovia 356', '07251 000', 'Guarulhos',
  'SP', '4343 6712', '831 4311', 1),
  
- (6, 'Sr', 'Claudinei', 'Safra', 'Avenida José Osvaldo Marques', '1562', NULL, '14173 010', 'Sertãozinha',
+ (6, 'Sr', 'Claudinei', 'Safra', 'Avenida José Osvaldo Marques', '1562', NULL, '14173 010', 'Sertãozinho',
  'SP', '3698 8100', '8131 6409', 1),
  
  (7, 'Sr', 'Ricardo', 'Ferreira', 'Alameda Assunta Barizani Tienghi', '88', NULL, '18046 705', 'Sorocaba',
