@@ -23,6 +23,169 @@ from Tb_tete
 order by 3;
 
 
+select id_cliente, nome
+from tb_cliente 
+where id_cliente between 1 and 9
+
+select id_cliente, nome
+from tb_cliente 
+where nome  between 'A' and 'D'
+
+select id_cliente , nome
+from tb_cliente  
+where nome like 'R%'
+
+select id_cliente ,nome
+from tb_cliente 
+where nome like '%e'
+
+select id_cliente,nome 
+from tb_cliente
+where nome like '____'
+
+select id_cliente , nome
+from tb_cliente 
+where nome like '_a%'
+
+
+select id_cliente, nome 
+from tb_cliente 
+limit 5
+
+select id_cliente, nome 
+from tb_cliente 
+limit 8 offset 2
+
+
+select id_cliente, nome 
+from tb_cliente 
+offset 12
+
+
+create table tb_teste(
+coluna_a	INTEGER
+);
+
+insert into tb_teste
+values
+(0),(1),(null);
+
+select *
+from tb_teste
+where coluna_a = 1
+
+select *
+from tb_teste 
+where coluna_a is null
+
+
+
+
+select cast ('30/08/2023' as date);
+
+show datestyle;
+
+
+
+select now()
+
+select *
+from tb_pedido 
+where date_part('month' ,dt_compra) = 9;  
+
+
+select *
+from tb_pedido 
+where dt_compra >= cast ('2013 07 21' as date)
+
+
+select now() , current_timestamp;
+
+select id_pedido , dt_entrega - dt_compra as intervalo 
+from tb_pedido 
+
+
+select id_cliente
+from tb_cliente
+where nome = 'Anna' and sobrenome = 'Kelly'
+
+select *
+from tb_pedido tp 
+where id_cliente = 8
+
+
+
+select ds_item , quantidade 
+from tb_item ti 
+join tb_estoque te on ti.id_item = te.id_item 
+
+
+select tb_cliente.nome, tb_pedido.dt_compra 
+from tb_cliente, tb_pedido 
+where tb_cliente.id_cliente = tb_pedido.id_cliente 
+and tb_cliente.id_cliente = 8
+
+
+select tb_cliente.nome, tb_pedido.dt_compra 
+from tb_cliente , tb_pedido
+where tb_cliente.id_cliente = tb_pedido.id_cliente
+and tb_cliente.nome = 'Agnaldo'
+and tb_cliente.sobrenome  = 'Aparecido'
+
+
+select ds_item,preco_custo, codigo_barras
+from tb_item,tb_codigo_barras tcb 
+where tcb.id_item = tb_item.id_item
+order by 2;
+
+
+select c.nome, p.dt_compra
+from tb_cliente c , tb_pedido p
+where c.id_cliente = p.id_cliente 
+and c.nome = 'Anna'
+and c.sobrenome = 'Kelly'
+
+
+select c.nome,p.dt_compra
+from tb_cliente c
+inner join tb_pedido p on (c.id_cliente = p.id_cliente)
+where c.nome = 'Anna'
+and c.sobrenome = 'Kelly'
+
+
+
+select c.nome , p.dt_compra, ip.id_item, ip.quantidade 
+from tb_cliente c , tb_pedido p ,tb_item_pedido ip
+where c.id_cliente = p.id_cliente 
+and p.id_pedido = ip.id_pedido 
+and c.nome = 'Anna'
+and c.sobrenome = 'Kelly'
+
+select c.nome, p.dt_compra , ip.id_item, ip.quantidade
+from tb_cliente c
+inner join tb_pedido p on (c.id_cliente = p.id_cliente) 
+inner join tb_item_pedido ip on (p.id_pedido = ip.id_pedido)
+where c.nome = 'Anna'
+and c.sobrenome = 'Kelly'
+
+
+select c.nome , p.dt_compra, ip.id_item, i.ds_item , ip.quantidade
+from tb_cliente c ,tb_pedido p, tb_item_pedido ip , tb_item i
+where c.id_cliente = p.id_cliente 
+and p.id_pedido = ip.id_pedido 
+and ip.id_item = i.id_item 
+and c.nome = 'Anna'
+and c.sobrenome = 'Kelly'
+
+
+select c.nome , p.dt_compra ,ip.id_item , i.ds_item , ip.quantidade
+from tb_cliente c
+inner join tb_pedido p on (c.id_cliente = p.id_cliente)
+inner join tb_item_pedido ip on (p.id_pedido = ip.id_pedido)
+inner join tb_item i on (ip.id_item = i.id_item)
+where c.nome = 'Anna'
+and c.sobrenome = 'Kelly'
+
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
