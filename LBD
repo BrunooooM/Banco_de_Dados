@@ -1,5 +1,198 @@
 Anotaçoes da aula 
 
+select *
+from tb_cliente tc 
+
+insert into tb_cliente 
+values
+
+(16,'Sr','Sidney','Magal', 'Rua Teste', '71', null, '13400 500', 'Cravinhos', 'SP', '4939 2386', '8092 6832',1);
+
+
+insert into tb_cliente 
+values 
+(17,'Sra', 'Joana','D''arc', 'Rua Aurora', '10', null, '40013 890', 'Ourinhos', 'SP', '4939 2386', '8092 6832',1);
+
+
+
+insert into tb_cliente  (id_cliente, titulo, nome,sobrenome,endereco,numero,cep,cidade,estado,fone_fixo,fone_movel,fg_ativo)
+
+values 
+(18,'Sra', 'Sarah', 'Martins', 'Rua Piracicaba', 's/n', '40013 890', 'Mococa', 'SP', '3922 7622', '9876 2132', 1);
+
+insert into tb_cliente  (id_cliente, titulo, sobrenome,nome,endereco,numero,cep,cidade,estado,fone_fixo,fone_movel,fg_ativo)
+
+values 
+
+(19, 'Sra', 'Nome_19', 'Sobrenome_19', 'Endereco 19', '19', '19191 191', 'Cidade 29', 'SP','1919 1919', '91919 1919', 1 ),
+(20, 'Sra', 'Nome_20', 'Sobrenome_20', 'Endereco 20', '20', '20202 202', 'Cidade 20', 'SP', '2020 2020', '20202 2020',1);
+
+
+create sequence sq_teste
+minvalue 1
+increment 1
+start 1
+no cycle;
+
+
+create table tb_pratica_sequencia(
+coluna_a	integer default nextval('sq_teste'),
+coluna_b	varchar,
+coluna_c	varchar,
+primary key (coluna_a)
+);
+
+
+
+insert into tb_pratica_sequencia (coluna_a, coluna_b,coluna_c)
+
+values 
+(1,'Exemplo A', 'Exemplo A'),
+(2,'Exemplo B', 'Exemplo B'),
+(3,'Exemplo C', 'Exemplo C');
+
+
+insert into tb_pratica_sequencia (coluna_b, coluna_c)
+
+values 
+('Exemplo D', 'Exemplo D'),
+('Exemplo E', 'Exemplo E'),
+('Exemplo F', 'Exemplo F');
+
+select *
+from tb_pratica_sequencia
+
+
+select currval ('sq_teste');
+
+
+select *
+from sq_teste;
+
+
+select nextval('sq_teste'); 
+
+select setval('sq_teste', 100); 
+
+select *
+from sq_teste;
+
+
+insert into tb_pratica_sequencia (coluna_a, coluna_b, coluna_c)
+
+values 
+(default, 'Exemplo D', 'Exemplo D');
+
+
+
+
+insert into tb_cliente (id_cliente, titulo, nome, sobrenome, endereco, numero, cep, complemento, cidade, estado, fone_fixo, fone_movel, fg_ativo)
+
+
+values 
+(21, 'Sr', 'Teste Null', 'Silva', 'Rua Teste Null', 's/n', '40013 890', null, 'Cajuru', 'SP', '3922 7622', '9876 2132', 1);
+
+
+insert into tb_cliente (id_cliente, titulo, nome, sobrenome, endereco, numero, cep, cidade, estado, fone_fixo, fone_movel, fg_ativo)
+
+values 
+(22, 'Sr', 'Teste Null', 'Silva', 'Rua Teste Null', 's/n', '40013 890','Lins', 'SP', '3344 8899', '99163 3221', 1);
+
+
+create table tb_valor_nulo(
+
+id		SERIAL,
+ds_a	varchar constraint nn_ds_a not null,
+ds_b	varchar null,
+primary key (id)
+);
+
+
+insert into tb_valor_nulo(ds_a, ds_b)
+
+values 
+(null,'Testando...');
+
+insert into tb_valor_nulo(ds_b)
+values 
+('Testando');
+
+copy tb_cliente
+from 'c:/temp/cliente.txt'
+using delimiters ';';
+
+select *
+from tb_cliente tc 
+
+
+create table tb_backup_cliente(
+
+id_cliente		integer, 
+titulo			char(4),
+nome 			varchar (32) not null,
+sobrenome		varchar(32) not null,
+endereco		varchar (32) not null,
+numero			varchar(5) not null,
+complemento		varchar(62),
+cep				varchar(10),
+cidade			varchar(62) not null,
+estado			char(2) not null,
+fone_fixo		varchar(15) not null,
+fone_movel		varchar(15) not null,
+fg_ativo		integer,
+primary key (id_cliente)
+);
+
+
+insert into tb_backup_cliente 
+select *
+from tb_cliente 
+where nome is not null;
+
+select *
+from tb_backup_cliente;
+
+
+create table tb_backup_pedido as 
+select *
+from tb_pedido tp
+
+
+select *
+from tb_backup_pedido
+
+
+update tb_cliente 
+set titulo = 'Sra',
+nome = 'Marta'
+where id_cliente = 21;
+
+select *
+from tb_cliente tc 
+order by id_cliente 
+
+update tb_backup_cliente 
+set fg_ativo = 99;
+
+
+update tb_backup_cliente 
+set nome = tb_cliente.nome 
+from tb_cliente 
+where tb_cliente.id_cliente = 9
+and tb_backup_cliente.id_cliente = 10;
+
+select *
+from tb_backup_cliente
+order by 1;
+
+
+delete from tb_backup_cliente;
+
+
+truncate -- apaga todos os valores e refaz a tabela (apenas com os nomes das tuplas)
+table tb_backup_cliente; 
+
+
 select inet_server_port();
 
 select current_database();
