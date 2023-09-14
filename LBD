@@ -1,6 +1,87 @@
 Anotaçoes da aula 
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+Aula do dia 13/09/2023
 
+create table tb_pedido(
+
+id_pedido		integer,
+
+constraint pk_pedido_id_pedido primary key (id_pedido)
+)
+
+
+
+create table tb_item_pedido(
+
+id_item			smallint,
+id_pedido		smallint,
+quantidade		integer,
+
+constraint pk_item_id_pedido primary key (id_item)
+
+)
+
+
+
+alter table tb_item_pedido
+add foreign key (id_pedido)
+	references tb_pedido(id_pedido);
+	
+
+select *
+from pg_constraint 
+where confrelid = "tb_pedido"
+
+
+
+--gerar um relatorio que apresente o nome do empregado, juntamente com o nome do seu respectivo gerente
+
+
+--exemplo  saida:
+
+--Andre Leonardo trabalha para Gabriel Zacarias
+
+--(1) criaçao do objeto tb_empregado
+-- essa tabela tera um auto relacionamento
+
+create table tb_empregado(
+	id_empregado		INTEGER,
+	nm_empregado		VARCHAR(60),
+	salario				NUMERIC(7,2),
+	id_gerente			INTEGER,
+	constraint pk_tb_empregado_id_empregado primary key(id_empregado),
+	constraint fk_tb_empegado_id_empregado foreign key(id_gerente)
+		references tb_empregado(id_empregado)
+);
+
+select *
+from tb_empregado
+
+insert into tb_empregado (id_empregado,id_gerente,nm_empregado,salario)
+
+values 
+(100,null,'Kauan Henrique', 24000.00),
+(110,100,'Geraldo Henrique Neto',7500.00),
+(120,100,'Andre Leonardo',8200.00),
+(130,120,'Igor Davi', 5100.00),
+(140,110,'Julia Prado',3200.00);
+
+
+select e.nm_empregado || 'trabalha para '||g.nm_empregado "Quem é o gerente de quem?"
+from tb_empregado e
+inner join tb_empregado g on (e.id_gerente = g.id_empregado);
+
+
+-- relatorio(2)
+-- -- incluindo o CEO (KAUA HENRIQUE) no relatoio 
+-- atraves de uma junlao externa que preserva
+-- as tuplas de uma deteminada tabela(esquerdo/direito)
+
+
+select e.nm_empregado || 'Trabalha para '|| coalesce (g.nm_empregado,'os acionista') "quem trabalha para quem"
+from tb_empregado e
+left outer join tb_empregado g on(e.id_gerente = g.id_empregado);
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ------> Prova
