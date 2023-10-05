@@ -724,6 +724,30 @@ values
 
 select *
 from tb_teste_tipo
+
+drop table tb_teste_tipo
+
+
+create table tb_teste_tipo(
+char_simples		char,
+char_fixo			char(13),
+char_variavel		varchar(128)
+);
+
+
+insert into tb_teste_tipo
+values
+('F','0-349-10177-9','A Fabrica de String'),
+('S','1-85723-457-X','Excecao'),
+('F','0-349-10768-8','`Particular'),
+(null,'','T.B.D');
+
+
+insert into tb_teste_tipo
+values
+('L','Um String muito longo','L');
+
+
 						
 
 					
