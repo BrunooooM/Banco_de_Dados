@@ -705,6 +705,11 @@ select i.id_item,i.ds_item,e.quantidade
 from tb_item i
 left outer join tb_estoque e on (i.id_item = e.id_item and e.quantidade > 2)
 where i.preco_custo > 5::numeric (5,2)
+
+create table tb_teste_tipo(
+valor_usado		varchar(10),
+res_bool		bool
+);
 						
 
 					
