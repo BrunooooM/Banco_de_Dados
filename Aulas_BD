@@ -747,6 +747,17 @@ insert into tb_teste_tipo
 values
 ('L','Um String muito longo','L');
 
+select *
+from tb_teste_tipo
+
+select char_fixo,length(char_fixo),char_variavel
+from tb_teste_tipo
+where char_simples = 'S';
+
+select char_fixo,length(char_fixo),char_variavel
+from tb_teste_tipo
+where char_simples is null
+
 
 						
 
