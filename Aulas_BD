@@ -710,6 +710,20 @@ create table tb_teste_tipo(
 valor_usado		varchar(10),
 res_bool		bool
 );
+
+insert into tb_teste_tipo
+values
+('TRUE',true),
+('1','1'),
+('t','t'),
+('no','no'),
+('f','f'),
+('NULL',NULL),
+('FALSE',FALSE);
+
+
+select *
+from tb_teste_tipo
 						
 
 					
