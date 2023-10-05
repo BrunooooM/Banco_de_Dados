@@ -1,0 +1,710 @@
+
+
+
+
+CREATE TABLE tb_cliente(
+	id_cliente		INTEGER,
+	titulo			CHAR(4),
+	nome 			VARCHAR(32) CONSTRAINT nn_cliente_nome NOT NULL,
+	sobrenome		VARCHAR(32) CONSTRAINT nn_cliente_sobrenome NOT NULL,
+	endereco		VARCHAR(32) CONSTRAINT nn_cliente_endereco NOT NULL,
+	numero			VARCHAR(5) CONSTRAINT nn_cliente_numero NOT NULL,
+	complemento		VARCHAR(62),
+	cep				VARCHAR(10),
+	cidade			VARCHAR(62) CONSTRAINT nn_cliente_cidade NOT NULL,
+	estado			CHAR(2) CONSTRAINT nn_cliente_etado NOT NULL,
+	fone_fixo		VARCHAR(15) CONSTRAINT nn_cleinte_fone_fix NOT NULL,
+	fone_movel		VARCHAR(15) CONSTRAINT nn_cliente_fone_movel NOT NULL,
+	fg_ativo		INTEGER,
+	CONSTRAINT pk_cliente_id_cliente PRIMARY KEY(id_cliente)	
+	 
+);
+
+CREATE TABLE tb_item(
+	id_item		INTEGER,
+	ds_item 	VARCHAR(64) CONSTRAINT nn_item_ds_item NOT NULL,
+	preco_custo	NUMERIC(7,2),
+	preco_venda	NUMERIC(7,2),
+	fg_ativo	 	INTEGER,
+	CONSTRAINT pk_item_id_item PRIMARY KEY(id_item)
+);
+
+CREATE TABLE tb_pedido(
+	id_pedido		INTEGER,
+	id_cliente 	 	INTEGER CONSTRAINT nn_pedido_id_cliente NOT NULL,
+	dt_compra 		TIMESTAMP,
+	dt_entrega		TIMESTAMP,
+	valor			NUMERIC(7,2),
+	fg_ativo 		INTEGER,
+	CONSTRAINT pk_pedido_id_pedido PRIMARY KEY(id_pedido),
+	CONSTRAINT fk_pedido_id_cliente FOREIGN KEY(id_cliente)
+		REFERENCES tb_cliente(id_cliente)
+
+);
+
+CREATE TABLE tb_item_pedido(
+	id_item 		INTEGER,
+	id_pedido		INTEGER CONSTRAINT nn_item_pedido_id_pedido NOT NULL,
+	quantidade 		INTEGER,
+	CONSTRAINT pk_item_pedido PRIMARY KEY(id_item, id_pedido),
+	CONSTRAINT fk_item_pedido_id_item FOREIGN KEY(id_item)
+		REFERENCES tb_item(id_item),
+	CONSTRAINT fk_item_pedido_id_pedido FOREIGN KEY(id_pedido)
+		REFERENCES tb_pedido(id_pedido)
+);
+
+CREATE TABLE tb_codigo_barras(
+	codigo_barras		INTEGER CONSTRAINT nn_cod_barras_codigo_barras NOT NULL,
+	id_item				INTEGER CONSTRAINT nn_cod_barras_id_item NOT NULL,
+	CONSTRAINT fk_cod_barras_id_item FOREIGN KEY(id_item)
+		REFERENCES tb_item(id_item)
+
+);
+
+CREATE TABLE tb_estoque(
+	id_item		INTEGER,
+	quantidade	INTEGER,
+	CONSTRAINT pk_estoque_id_item PRIMARY KEY(id_item),
+	CONSTRAINT fk_estoque_id_item FOREIGN KEY(id_item)
+		REFERENCES tb_item(id_item)
+);
+
+INSERT INTO tb_cliente(id_cliente, titulo, nome, sobrenome, endereco, numero, complemento,
+					  cep, cidade, estado, fone_fixo, fone_movel, fg_ativo) 
+					 
+					 
+VALUES
+ (1, 'Sra', 'Jessica', 'Mendes', 'Avenida Acelino de Leao', '89', NULL, '68900 300', 'Macapá',
+ 'AP', '3565 1243', '8765 8999', 1),
+ 
+ (2, 'Sr', 'Andrei', 'Junqueira', 'Rua Tabaiares', '1024', NULL, '30150 040', 'Belo Horizonte',
+ 'MG', '3676 1209', '8876 4543', 1),
+ 
+ (3, 'Sr', 'Alex', 'Matheus', 'Rua Eva Terpins', 's/n', NULL, '05327 030', 'São Paulo',
+ 'SP', '6576 0099', '9358 7676', 1);
+
+
+INSERT INTO tb_cliente
+
+VALUES
+ (4, 'Sr', 'Andre', 'Lopes', 'Rua Fortaleza', '552', NULL, '11436 360', 'Guarujá',
+ 'SP', '5564 4343', '9821 4321', 1),
+ 
+ (5, 'Sr', 'Vitor', 'Silva', 'Entrada Aguá Chata', 's/n', 'Rodovia 356', '07251 000', 'Guarulhos',
+ 'SP', '4343 6712', '831 4311', 1),
+ 
+ (6, 'Sr', 'Claudinei', 'Safra', 'Avenida José Osvaldo Marques', '1562', NULL, '14173 010', 'Sertãozinho',
+ 'SP', '3698 8100', '8131 6409', 1),
+ 
+ (7, 'Sr', 'Ricardo', 'Ferreira', 'Alameda Assunta Barizani Tienghi', '88', NULL, '18046 705', 'Sorocaba',
+ 'SP', '6534 7099', '9988 1251', 1);
+ 
+
+INSERT INTO tb_cliente
+
+
+VALUES
+ (8, 'Sra', 'Anna', 'Kelly', 'Rua das Acacias', '1089', NULL, '13187 042', 'Hortolândia',
+ 'SP', '6432 440043', '9465 0023', 1),
+ 
+ (9, 'Sra', 'Cristiane', 'Hickman', 'Rua Agenir Martinhon Scachetti', '300', NULL, '13341 633', 'Indaiatuba',
+ 'SP', '3512 1243', '9987 0001', 1),
+ 
+ (10, 'Sr', 'Marcos', 'Augusto', 'Avenida Australia', 's/n', NULL, '06852 100', 'Itapeceira da Serra',
+ 'SP', '3623 8821', '8891 2333', 1),
+ 
+ (11, 'Sr', 'David', 'Silva', 'Rua Arcy Prestes Ruggeri', '24', 'Esquina do Mercado', '18201 720', 'Itapetininga',
+ 'SP', '4565 9240', '7765 4029', 1);
+ 
+ 
+INSERT INTO tb_cliente
+
+VALUES
+ (12, 'Sr', 'Ricardo', 'Cunha', 'Rua Jose Fortunato de Godoy', '889', NULL, '13976 121', 'Itapira',
+ 'SP', '5467 1959', '9244 9584', 1),
+ 
+ (13, 'Sra', 'Laura', 'Batista', 'Rua Villa Lobos', '76', NULL, '13976 018', 'Ribeirão Preto',
+ 'SP', '2111 8710', '9991 2324', 1),
+ 
+ (14, 'Sr', 'Valmil', 'Feliciano', 'Rua Professor Emilton Amaral', '961', 'Loteamento Novo Horizonte', '58053 223', 'João Pessoa',
+ 'PB', '4431 8740', '9766 0033', 1),
+ 
+ (15, 'Sr', 'Agnaldo', 'Aparecido', 'Rua Soldado Celio Tonelli', '778', NULL, '09240 320', 'Santo André',
+ 'SP', '2386 8092', '99625 3683', 1);
+
+INSERT INTO tb_item(id_item, ds_item, preco_custo, preco_venda, fg_ativo)
+
+VALUES
+(1, 'Quebra-cabeça de Madeira', 15.23, 21.95, 1),
+(2, 'Cubo X', 7.45, 11.49, 1),
+(3, 'CD Linux', 1.99, 2.49, 1),
+(4, 'Tecidos', 2.11, 3.99, 1),
+(5, 'Moldura', 7.54, 9.95, 1),
+(6, 'Ventilador Pequeno', 9.23, 15.75, 1);
+
+INSERT INTO tb_item(id_item, ds_item, preco_custo, preco_venda, fg_ativo)
+
+VALUES
+(7, 'entilador Grande', 13.36, 19.95,1),
+(8, 'Escova de Dentes', 0.75, 1.45, 1),
+(9, 'Papel A4', 2.35, 2.45, 1),
+(10, 'Saco de Transporte', 0.01, 0.0, 1),
+(11, 'Alto-Falantes', 19.73, 25.32, 1);
+
+
+INSERT INTO tb_pedido(id_pedido, id_cliente, dt_compra, dt_entrega, valor, fg_ativo)
+
+VALUES
+(1, 3, '13-03-2013', '17-03-2013', 2.99, 1),
+(2, 8, '23-06-2013', '24-06-2013,', 0.00, 1),
+(3, 15, '02-09-2013', '12-09-2013', 3.99, 1),
+(4, 13, '03-09-2013', '10-09-2013', 2.99, 1),
+(5, 8, '21-07-2013', '24-07-2013', 0.00, 1);
+
+
+INSERT INTO tb_item_pedido (id_pedido, id_item, quantidade)
+
+VALUES
+(1,4,1),
+(1,7,1),
+(1,9,1),
+(2,1,1),
+(2,10,1),
+(2,7,2);
+
+INSERT INTO tb_item_pedido (id_pedido, id_item, quantidade)
+
+VALUES
+(2,4,2),
+(3,2,1),
+(3,1,1),
+(4,5,2),
+(5,1,1),
+(5,3,1);
+
+INSERT INTO tb_codigo_barras(codigo_barras, id_item)
+
+VALUES
+(624152783, 1),
+(624157463, 2),
+(626453783, 3),
+(624152774, 3),
+(746574384, 4),
+(345345867, 5),
+(643456456, 6);
+
+INSERT INTO tb_codigo_barras (codigo_barras, id_item)
+
+VALUES
+(847673683, 7),
+(624123458, 8),
+(947362553, 8),
+(947362746, 8),
+(458726364, 9),
+(987987983, 11),
+(223987237, 11);
+
+INSERT INTO tb_estoque(id_item, quantidade)
+
+VALUES
+(1,12),
+(2,2),
+(4,8),
+(5,3),
+(7,8),
+(8,18),
+(10,1);
+
+
+select *
+from tb_cliente
+
+insert into tb_cliente 
+values
+(16, 'Sr', 'Sidney', 'Magal', 'Rua Teste', '71', null, '13400 500', 'Cravinhos', 'SP', '4939 2386', '8092 6832', 1),
+(17, 'Sra', 'Joana', 'D''arc', 'Rua Aurora', '10', null, '40013 890', 'Ourinhos', 'SP', '4939 2386', '8092 6832', 1);
+
+
+insert into tb_cliente (id_cliente, titulo, nome, sobrenome, endereco, numero, cep, cidade, estado, fone_fixo, fone_movel, fg_ativo)
+values
+(18, 'Sra', 'Sarah', 'Martins', 'Rua Piracicaba', 's/n', '40013 890', 'Mococa', 'SP', '3922 7622', '9876 2132', 1);
+
+
+insert into tb_cliente(id_cliente, titulo, sobrenome, nome, endereco, numero, cep, cidade, estado, fone_fixo, fone_movel, fg_ativo)
+values
+(19, 'Sra', 'Nome_19', 'Sobrenome_19', 'Endereco 19', '19', '19191 191', 'Cidade 19', 'SP', '1919 1919', '91919 1919', 1),
+(20, 'Sra', 'Nome_20', 'Sobrenome_20', 'Endereco 20', '20', '20202 202', 'Cidade 20', 'SP', '2020 2020', '20202 2020', 1);
+
+
+create sequence sq_teste
+minvalue 1
+increment 1
+start 1
+no cycle;
+
+create table tb_pratica_sequencia(
+	coluna_a INTEGER default NEXTVAL('sq_teste'),
+	coluna_b VARCHAR,
+	coluna_c VARCHAR,
+	primary key(coluna_a));
+	
+insert into tb_pratica_sequencia(coluna_a, coluna_b, coluna_c)
+values
+(1, 'Exemplo A', 'Exemplo A'),
+(2, 'Exemplo B', 'Exemplo B'),
+(3, 'Exemplo C', 'Exemplo C');
+
+insert into tb_pratica_sequencia(coluna_b, coluna_c)
+values
+('Exemplo D', 'Exemplo D'),
+('Exemplo E', 'Exemplo E'),
+('Exemplo F', 'Exemplo F');
+
+SELECT CURRVAL('sq_teste');
+
+select *
+from sq_teste;
+
+SELECT NEXTVAL('sq_teste');
+
+SELECT SETVAL('sq_teste', 100);
+
+insert into tb_pratica_sequencia(coluna_a, coluna_b, coluna_c)
+values
+(DEFAULT, 'Exemplo D', 'Exemplo D');
+
+select *
+from tb_pratica_sequencia
+
+insert into tb_cliente (id_cliente, titulo, nome, sobrenome, endereco, numero, cep, complemento, cidade, estado, fone_fixo, fone_movel, fg_ativo)
+values
+(21,'Sr', 'Teste NULL', 'Silva', 'Rua Teste NULL', 's/n', '40013 890', NULL, 'Cajuru', 'SP', '3922 7622', '9876 2132', 1);
+
+
+insert into tb_cliente (id_cliente, titulo, nome, sobrenome, endereco, numero, cep, cidade, estado, fone_fixo, fone_movel, fg_ativo)
+values
+(22, 'Sr', 'Teste NULL', 'Silva', 'Rua Teste NULL', 's/n', '40013 890', 'Lins', 'SP', '3344 8899', '99163 3221', 1);
+
+
+
+CREATE TABLE tb_valor_nulo(
+	id 		SERIAL,
+	ds_a	VARCHAR CONSTRAINT nn_ds_a NOT NULL,
+	ds_b	VARCHAR NULL,
+	PRIMARY KEY(id));
+	
+
+COPY tb_cliente
+FROM 'C:\temp\cliente.txt'
+using delimiters ';';
+
+CREATE TABLE tb_backup_cliente(
+	id_cliente 		INTEGER,
+	titulo			CHAR(4),
+	nome  			VARCHAR(32) NOT NULL,
+	sobrenome		VARCHAR(32) NOT NULL,
+	endereco 		VARCHAR(62) NOT NULL,
+	numero			VARCHAR(5) NOT NULL,
+	complemento 	VARCHAR(62),
+	cep 			VARCHAR(10),
+	cidade			VARCHAR(62) NOT NULL,
+	estado 			CHAR(2) NOT NULL,
+	fone_fixo		VARCHAR(15) NOT NULL,
+	fone_movel		VARCHAR(15) NOT NULL,
+	fg_ativo		INTEGER,
+	PRIMARY KEY(id_cliente));
+
+INSERT INTO tb_backup_cliente
+SELECT *
+FROM tb_cliente 
+WHERE nome IS NOT NULL;
+
+CREATE TABLE tb_bkp_pedido AS
+SELECT *
+FROM tb_pedido;
+
+SELECT *
+FROM tb_bkp_pedido;
+
+UPDATE tb_cliente
+	SET titulo = 'Sra',
+	nome = 'Marta'
+WHERE id_cliente = 21;
+
+UPDATE tb_backup_cliente
+	SET fg_ativo = 99;
+
+UPDATE tb_backup_cliente 
+	SET nome = tb_cliente.nome 
+FROM tb_cliente
+WHERE tb_cliente.id_cliente = 9
+AND tb_backup_cliente.id_cliente = 10;
+
+DELETE
+FROM tb_backup_cliente
+
+SELECT inet_server_port(); 
+
+SELECT current_database(); 
+
+SELECT current_user;
+
+SELECT inet_client_addr(); 
+
+
+select *
+from tb_item;
+
+
+SELECT cidade, sobrenome
+FROM tb_cliente;
+
+
+
+SELECT cidade "Cidade do Cliente",
+	sobrenome "Sobrenome do Cliente"
+FROM tb_cliente
+ORDER BY cidade DESC, sobrenome ASC;
+
+SELECT cidade "Cidade do Cliente",
+	sobrenome "Sobrenome do Cliente"
+FROM tb_cliente
+ORDER BY  1 DESC,  2 ASC;
+
+
+SELECT sobrenome
+FROM tb_cliente
+ORDER BY 1;
+
+SELECT DISTINCT (sobrenome)
+FROM tb_cliente
+ORDER BY 1;
+
+
+SELECT ds_item, preco_custo
+FROM tb_item
+ORDER BY 1;
+
+
+
+SELECT ds_item, preco_custo,
+	preco_custo*100 AS RESULTADO
+FROM tb_item
+ORDER BY 1;
+
+
+SELECT ds_item, preco_custo,
+	CAST((preco_custo * 100)AS INT) AS "Preço de Custo"
+FROM tb_item
+ORDER BY 1;
+
+
+SELECT sobrenome AS "Sobrenome do Cliente",
+	cidade AS "Cidade do Cliente"
+FROM tb_cliente
+WHERE cidade = 'São Paulo';
+
+
+
+SELECT sobrenome AS "Sobrenome do Cliente",
+	cidade AS "Cidade do Cliente"
+FROM tb_cliente
+WHERE titulo <> 'Sra'
+AND (cidade = 'Sertãozinho' OR cidade = 'São Paulo');
+
+SELECT sobrenome AS "Sobrenome do Cliente",
+	cidade AS "Cidade do Cliente"
+FROM tb_cliente
+WHERE cidade IN('São Paulo', 'Sorocaba');
+
+
+select id_cliente, nome
+from tb_cliente
+where id_cliente between 5 and 9;
+
+select id_cliente, nome
+from tb_cliente
+where nome between 'A' and 'D';
+
+select id_cliente, nome
+from tb_cliente
+where nome like 'R%';
+
+select id_cliente , nome
+from tb_cliente
+where nome like '%e'
+
+
+select id_cliente , nome
+from tb_cliente
+where nome like '____'
+
+select id_cliente, nome
+from tb_cliente
+where nome  Ilike 'A%'
+
+select id_cliente, nome
+from tb_cliente
+limit 5;
+
+select id_cliente, nome
+from tb_cliente
+limit 8 offset 2;
+
+select id_cliente, nome
+from tb_cliente
+offset 12;
+
+create table tb_teste(
+coluna_a INTEGER
+);
+
+insert into tb_teste
+values
+(0), (1), (null);
+
+select *
+from tb_teste
+where coluna_a is null;
+
+select *
+from tb_teste
+where coluna_a is not null;
+
+
+select cast ('30/08/2023' as date);
+
+select cast('30/08/2023' as timestamp);
+
+select *
+from tb_pedido
+where date_part('month', dt_compra)= 9; 
+
+
+select *
+from tb_pedido
+where dt_compra >= cast('2013 07 21' as date);
+
+select now(), current_timestamp;
+
+select dt_entrega - dt_compra as intervalo
+from tb_pedido;
+
+select id_cliente
+from tb_cliente
+where nome = 'Anna' and sobrenome = 'Kelly';
+
+
+select *
+from tb_pedido
+where id_cliente = 8;
+
+select tb_cliente.nome, tb_pedido.dt_compra 
+from tb_cliente, tb_pedido
+where tb_cliente.id_cliente = tb_pedido.id_cliente
+and tb_cliente.id_cliente = 8;
+
+select tb_cliente.nome, tb_pedido.dt_compra
+from tb_cliente, tb_pedido
+where tb_cliente.id_cliente = tb_pedido.id_cliente 
+and tb_cliente.nome = 'Agnaldo'
+and tb_cliente.sobrenome = 'Aparecido';
+
+select ds_item, preco_custo, codigo_barras
+from tb_item, tb_codigo_barras 
+where tb_codigo_barras.id_item  = tb_item.id_item
+order by 2;
+
+select c.nome, p.dt_compra
+from tb_cliente c, tb_pedido p
+where c.id_cliente = p.id_cliente 
+and c.nome = 'Anna'
+and c.sobrenome = 'Kelly';
+
+select c.nome, p.dt_compra
+from tb_cliente c
+inner join tb_pedido p on c.id_cliente = p.id_cliente
+where c.nome = 'Anna'
+and c.sobrenome = 'Kelly';
+
+select c.nome, p.dt_compra, ip.id_item, ip.quantidade
+from tb_cliente c, tb_pedido p, tb_item_pedido ip
+where c.id_cliente = p.id_cliente
+and p.id_pedido = ip.id_pedido 
+and c.nome  = 'Anna'
+and c.sobrenome = 'Kelly';
+
+select c.nome, p.dt_compra, ip.id_item, ip.quantidade
+from tb_cliente c
+inner join tb_pedido p on c.id_cliente = p.id_cliente
+inner join tb_item_pedido ip on p.id_pedido = ip.id_pedido 
+where c.nome = 'Anna'
+and c.sobrenome = 'Kelly';
+
+select c.nome, p.dt_compra, ip.id_item, i.ds_item, ip.quantidade
+from tb_cliente c, tb_pedido p, tb_item_pedido ip, tb_item i
+where c.id_cliente = p.id_cliente
+and p.id_pedido = ip.id_pedido 
+and ip.id_pedido = i.id_item 
+and c.nome  = 'Anna'
+and c.sobrenome = 'Kelly';
+
+select c.nome, p.dt_compra, ip.id_item, i.ds_item, ip.quantidade
+from tb_cliente c
+inner join tb_pedido p on c.id_cliente = p.id_cliente 
+inner join tb_item_pedido ip on p.id_pedido = ip.id_pedido 
+inner join tb_item i on ip.id_item = i.id_item 
+where c.nome = 'Anna' and c.sobrenome = 'Kelly';
+
+select nm_pessoa, COUNT(1)
+from tb_pessoas 
+group by nm_pessoa
+having count(1) > 1;
+
+select count(distinct sobrenome) as sobrenome_unicos, count(sobrenome) as sobrenomes_com_duplicidade
+from tb_cliente;
+
+select ds_item, preco_custo 
+from tb_item
+where preco_custo = (select MIN(preco_custo) from tb_item)
+
+select max(preco_venda) as "Maior Valor"
+from tb_item;
+
+select sum(preco_venda)
+from tb_item
+
+select AVG(preco_venda) as "Media"
+from tb_item;
+
+select cast(AVG(preco_venda) as numeric(7,2)) as "Media"
+from tb_item;
+
+
+select *
+from tb_item
+where preco_custo > (select AVG(preco_custo) from tb_item);
+
+
+select *
+from tb_item
+where preco_custo >(select AVG(preco_custo) from tb_item)
+and preco_venda < (select AVG(preco_venda) from tb_item);
+
+select p.dt_compra
+from tb_pedido p
+where p.id_cliente = (select c.id_cliente
+				from tb_cliente c 
+				where c.id_cliente = p.id_cliente 
+				and nome = 'Alex');
+			
+		
+select *
+from tb_pedido p, (select * 
+				from tb_cliente
+				where nome = 'Anna') c
+where c.id_cliente = p.id_cliente
+
+
+select nome, sobrenome
+from tb_cliente c
+where exists(select 1
+			from tb_pedido p
+			where p.id_cliente = c.id_cliente);
+			
+
+
+create table tb_parte(
+	id_parte			INTEGER,
+	descricao			VARCHAR(32),
+	id_parte_principal	INTEGER,
+	primary key(id_parte),
+	foreign key(id_parte_principal) references tb_parte(id_parte));
+
+
+insert into tb_parte 
+
+values
+(1, 'Mesa e Cadeiras', NULL),
+(2, 'Cadeira', 1),
+(3, 'Mesa', 1);
+
+
+select p1.descricao as "Combinaçao",
+	p2.descricao as "Partes"
+from tb_parte p1, tb_parte p2
+where p1.id_parte = p2.id_parte_principal;
+
+select nome, sobrenome
+from tb_cliente
+where sobrenome similar to '%(Matheus|Mendes)%';
+
+select  nome, sobrenome
+from tb_cliente
+where nome similar to '(A|S)%';
+
+
+select count(case when preco_venda between 0.01 and 5.00 then 1 else null end) as "Muito Baixo",
+	count(case when preco_venda between 5.01 and 10.00 then 1 else null end) as "Baixo",
+	count(case when preco_venda between 10.01 and 20.00 then 1 else null end) as "Medio",
+	count(case when preco_venda between 20.01 and 30.00 then 1 else null end) as "Alto"
+from tb_item;
+
+
+select 
+(select MIN(preco_venda) from tb_item) as Menor,
+(select MAX(preco_venda) from tb_item) as Maior,
+(select AVG(preco_venda) from tb_item) as Media;
+
+
+select MIN(preco_venda) "Menor",
+		MAX(preco_venda) "Maior",
+		AVG(preco_venda) "Media"
+from tb_item;
+
+
+create tablespace tablespace_01
+location 'C://tablespace_postgresql';
+
+create table tb_teste_tablespace(
+	col_a 			INTEGER
+)tablespace tablespace_01;
+
+insert into tb_teste_tablespace
+
+values
+(generate_series(1, 1000));
+
+select *
+from tb_teste_tablespace;
+
+select i.id_item,i.ds_item,e.quantidade
+from tb_item i, tb_estoque e
+where i.id_item = e.id_item;
+
+
+select i.id_item,i.ds_item
+from tb_item i, tb_estoque e
+where i.id_item not in (select i.id_item
+						from tb_item i, tb_estoque e
+						where i.id_item = e.id_item)
+						
+select i.id_item,i.ds_item,e.quantidade
+from tb_item i
+left outer join tb_estoque e on (i.id_item = e.id_item)
+
+select i.id_item,i.ds_item,e.quantidade
+from tb_item i
+right outer join tb_estoque e on (i.id_item = e.id_item)
+
+select i.id_item,i.ds_item,e.quantidade
+from tb_item i
+left outer join tb_estoque e on (i.id_item = e.id_item and e.quantidade > 2)
+
+select i.id_item,i.ds_item,e.quantidade
+from tb_item i
+left outer join tb_estoque e on (i.id_item = e.id_item and e.quantidade > 2)
+where i.preco_custo > 5::numeric (5,2)
+						
+
+					
