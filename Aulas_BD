@@ -758,6 +758,299 @@ select char_fixo,length(char_fixo),char_variavel
 from tb_teste_tipo
 where char_simples is null
 
+create table tb_teste_tipo(
+	um_smallint		SMALLINT,
+	um_int			INTEGER,
+	um_float		FLOAT,
+	um_real			REAL,
+	um_numeric		NUMERIC(5,2)
+);
+
+
+insert into tb_teste_tipo
+values
+(2, 2, 2.0, 2.0, 2.0),
+(-100, -100, 123.456789, 123.456789, 123.456789),
+(-32768, -123456789, 1.23456789, 1.23456789, 1.23456789),
+(-32768, -123456789, 123456789.1234567890, 123456789.123456789, 123.123456789);
+
+insert into tb_teste_tipo
+values
+(-32768, -123456789, 123456789.123456789, 23456789.123456789, 123456789.123456789);
+-- Detalhe: A field with precision 5, scale 2 must round to an absolute value less than 10^3.
+
+create table tb_funcionario_2(
+	cod_referencia		CHAR(5),
+	dias_uteis			INT[]
+);
+
+insert into tb_funcionario_2 
+values 
+('val01','{0,1,0,1,1,1,1}')
+
+insert into tb_funcionario_2 
+values
+('val02', '{0,1,1,1,1,0,1}')
+
+
+select *
+from tb_funcionario_2
+
+
+select dias_uteis[2]
+from tb_funcionario_2 
+where cod_referencia = 'val02'
+
+
+drop table tb_funcionario_2 
+
+create table tb_funcionario_2(
+
+cod_referencia		char(5),
+dias_uteis			int array[7]
+);
+
+insert into tb_funcionario_2 
+values
+('val01', '{0,1,0,1,1,1,1}')
+
+insert into tb_funcionario_2 
+values
+('val02', '{0,1,1,1,1,0,1}')
+
+
+select *
+from tb_funcionario_2 tf 
+
+select dias_uteis[2]
+from tb_funcionario_2 tf
+where cod_referencia = 'val02'
+
+select cast (dt_entrega  as char(10))
+from tb_pedido tp 
+						
+select preco_venda,preco_venda :: integer as "Guia de Preço"
+from tb_item ti 
+where preco_venda > 5.00
+
+select ds_item,
+		substr(ds_item,3,5),
+		preco_venda,
+		round(preco_venda,1)
+from tb_item ti;
+
+select trim ('0' from '000 Teste da Função TRIM000');
+
+select trim ('   Teste da Função TRIM   ');
+
+select strpos ('Teste da Função TRIM','e');
+
+select abs(-12345.67);
+
+select i.id_item,
+		i.ds_item,
+		e.quantidade,
+		current_timestamp
+from tb_item i
+join tb_estoque e on (i.id_item = e.id_item)
+
+
+select current_user,
+		current_time
+		
+select oid, nome, sobrenome
+from tb_cliente
+
+
+create table tb_teste_oid(
+
+col_a		integer,
+col_b		integer
+) without oids;
+
+
+insert into tb_teste_oid 
+values
+(generate_series(1,100), generate_series(100,200));
+
+
+select oid ,col_a,col_b
+from tb_teste_oid;
+
+create table tb_teste_restricoes(
+
+col_notnull			int not null,
+col_unique			int unique,
+col_pk				int primary key,
+col_default			int default 42,
+col_check			int check (col_check < 42)
+);
+
+insert into tb_teste_restricoes 
+values 
+(1,1,1,1,1),
+(2,2,2,2,2);
+
+
+insert into tb_teste_restricoes 
+values
+(2,2,2,2,2)
+-- duplicate key value violates unique constraint "tb_teste_restricoes_pkey"
+-- Detaley (col_pk)=(2) already exists.
+
+
+insert into tb_teste_restricoes (col_notnull,
+								  col_unique,
+								  col_pk,
+								  col_default,
+								  col_check)
+
+values 
+(1,null,98,1,1),
+(1,null,99,1,1)
+
+
+insert into tb_teste_restricoes (col_notnull,
+								  col_unique,
+								  col_pk,
+								  col_default,
+								  col_check)
+values 
+(2,2,9,2,2);
+
+--ERROR: duplicate key value violates unique constraint "tb_teste_restricoes_col_unique_key"
+--Detalhe: Key (col_unique)=(2) already exists.
+
+
+insert into tb_teste_restricoes (col_notnull,
+								  col_unique,
+								  col_pk,
+								  col_default,
+								  col_check)
+values 
+(3,3,3,3,100);
+-- ERROR: new row for relation "tb_teste_restricoes" violates check constraint "tb_teste_restricoes_col_check_check"
+-- Detalhe: Failing row contains (3, 3, 3, 3, 100).
+
+insert into tb_teste_restricoes (col_notnull,
+								  col_unique,
+								  col_pk,
+								  col_check)
+values
+(3,3,3,41);
+
+
+drop table tb_teste_restricoes 
+
+create table tb_teste_restricoes(
+
+chave1			int,
+chave2			int,
+mystring		varchar(15),
+constraint cs1 check (mystring<>''),
+constraint cs2 primary key (chave1,chave2) 
+);
+
+insert into tb_teste_restricoes 
+values 
+(1,1,'Olá'),
+(1,2,'Tchau')
+
+insert into tb_teste_restricoes 
+values
+(1,2,'')
+-- ERROR: new row for relation "tb_teste_restricoes" violates check constraint "cs1"
+-- Detalhe: Failing row contains (1, 2, ).
+
+alter table tb_teste_restricoes 
+add column mydate date
+
+alter table tb_teste_restricoes 
+rename column mydate to dt_nascimento
+
+select *
+from tb_teste_restricoes_2
+
+alter table tb_teste_restricoes 
+drop constraint cs1
+
+alter table tb_teste_restricoes 
+add constraint cs3 unique (dt_nascimento)
+
+alter table tb_teste_restricoes 
+alter column mystring set default 'OK'
+
+alter table tb_teste_restricoes 
+alter dt_nascimento type varchar(32)
+
+alter table tb_teste_restricoes 
+rename to tb_teste_restricoes_2
+
+drop table tb_teste_restricoes_2 
+
+create temporary table tb_teste_restricoes(
+
+chave1			int,
+chave2			int,
+mystring		varchar(15),
+constraint cs1 check (mystring<>''),
+constraint cs2 primary key (chave1,chave2) 
+);
+
+insert into tb_teste_restricoes 
+values 
+(1,1,'Olá'),
+(1,2,'Tchau')
+
+select *
+from tb_teste_restricoes
+
+create table tb_cidades(
+
+nome		text,
+populacao	float,
+altitude	int
+);
+
+create table tb_capitais(
+
+uf			char(2)
+)inherits (tb_cidades)
+
+select *
+from tb_capitais 
+
+alter table tb_cidades 
+drop column nome
+
+drop table tb_cidades,tb_capitais 
+
+--inherits é como o like porem se altera na tabela usando o inherits se apagar de uma tabela ele apaga da outra tabela, ja o like apaga apenas da que foi selecionado
+
+
+create table tb_cidades(
+
+nome			text,
+populacao		float,
+altitude		int
+
+);
+
+create table tb_capitais(
+
+uf			char(2),
+like tb_cidades
+
+)
+
+alter table tb_cidades 
+drop column nome
+ 
+
+select i.ds_item, e.quantidade
+from tb_item i
+join tb_estoque e on (i.id_item = e.id_item)
+
 
 						
 
