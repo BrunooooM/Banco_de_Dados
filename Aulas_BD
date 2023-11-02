@@ -1776,3 +1776,11 @@ create database "Exercicio_06"
 template template0
 encoding 'WIN1252'
 connection limit 100;
+
+
+
+
+create sequence seq_departamento
+minvalue 10
+start 10
+increment by 10;
