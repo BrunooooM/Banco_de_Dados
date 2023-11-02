@@ -1761,11 +1761,5 @@ $$
 language plpgsql;
 
 
-
-
-
-
-
-
-	
+select fn_get_funcionario ('Aqui vai o id')
 
